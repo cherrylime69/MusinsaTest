@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="HeadLine5" parent="TextAppearance.MaterialComponents.Headline5" />
+
+    <style name="HeadLine5.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="HeadLine5.White.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="HeadLine6" parent="TextAppearance.MaterialComponents.Headline6" />
+
+    <style name="HeadLine6.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1" />
+
+    <style name="Subtitle1.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2" />
+
+    <style name="Subtitle2.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Caption" parent="TextAppearance.MaterialComponents.Caption" />
+
+    <style name="Caption.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Overline" parent="TextAppearance.MaterialComponents.Overline" />
+
+    <style name="Overline.White">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+</resources>
