@@ -23,7 +23,8 @@
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:title="@string/appbar_title"
-                app:titleCentered="true" />
+                app:titleCentered="true"
+                app:titleTextAppearance="@style/HeadLine5" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

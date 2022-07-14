@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MusinsaTest</string>
     <string name="appbar_title">MUSINSA</string>
+    <string name="description_banner_image">배너 이미지</string>
+    <string name="description_style_image">추천 코디 상품 이미지</string>
+    <string name="description_goods_image">상품 이미지</string>
 </resources>
