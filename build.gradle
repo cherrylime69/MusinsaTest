@@ -5,6 +5,15 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.6.20' apply false
 }
 
+ext {
+    retrofitVersion = "2.9.0"
+    okhttpVersion = "4.10.0"
+    liveDataVersion = "2.6.0-alpha01"
+    viewModelScopeVersion = "2.6.0-alpha01"
+    activity_version = "1.5.0"
+    fragment_version = "1.5.0"
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
