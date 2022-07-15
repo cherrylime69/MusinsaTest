@@ -1,4 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.hiltVersion = "2.40"
+
+    dependencies {
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+    }
+}
+
 plugins {
     id 'com.android.application' version '7.1.2' apply false
     id 'com.android.library' version '7.1.2' apply false
@@ -10,8 +19,9 @@ ext {
     okhttpVersion = "4.10.0"
     liveDataVersion = "2.6.0-alpha01"
     viewModelScopeVersion = "2.6.0-alpha01"
-    activity_version = "1.5.0"
-    fragment_version = "1.5.0"
+    activityVersion = "1.5.0"
+    fragmentVersion = "1.5.0"
+    hiltVersion = "2.40"
 }
 
 task clean(type: Delete) {
