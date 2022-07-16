@@ -17,6 +17,28 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        viewModel
+        viewModel.bannerViewLiveData.observe(this) {
+            if (it.isNotEmpty()) {
+                println("첫번째 $it")
+            }
+        }
+        viewModel.gridViewLiveData.observe(this) {
+            if (it.isNotEmpty()) {
+                println("두번째 $it")
+            }
+        }
+
+        viewModel.scrollViewLiveData.observe(this) {
+            if (it.isNotEmpty()) {
+                println("세번째 $it")
+            }
+        }
+
+        viewModel.styleViewLiveData.observe(this) {
+            if (it.isNotEmpty()) {
+                println("네번째 $it")
+            }
+        }
     }
+
 }

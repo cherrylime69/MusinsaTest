@@ -25,7 +25,7 @@ object MusinsaNetwork {
     @Singleton
     @Provides
     fun provideInterceptor() = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
+        level = HttpLoggingInterceptor.Level.BASIC
     }
 
     @Singleton
