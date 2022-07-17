@@ -22,6 +22,7 @@ ext {
     activityVersion = "1.5.0"
     fragmentVersion = "1.5.0"
     hiltVersion = "2.40"
+    glideVersion = "4.12.0"
 }
 
 task clean(type: Delete) {

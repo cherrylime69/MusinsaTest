@@ -9,8 +9,6 @@ import com.example.musinsatest.data.dto.Good
 import com.example.musinsatest.data.dto.MusinsaDataResponse
 import com.example.musinsatest.data.dto.Style
 import com.example.musinsatest.data.repository.HomeRepository
-import com.example.musinsatest.domain.MusinsaContentType
-import com.example.musinsatest.domain.MusinsaContentType.*
 import com.example.musinsatest.domain.MusinsaDataType
 import com.example.musinsatest.domain.divideDataType
 import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_BANNER
@@ -20,8 +18,6 @@ import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_STYLE
 import com.example.musinsatest.ui.common.ViewType.DATA_TYPE_CONTENT
 import com.example.musinsatest.ui.common.ViewType.DATA_TYPE_FOOTER
 import com.example.musinsatest.ui.common.ViewType.DATA_TYPE_HEADER
-import com.example.musinsatest.ui.common.ViewType.FOOTER_TYPE_MORE
-import com.example.musinsatest.ui.common.ViewType.MORE_ADD_COUNT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -92,57 +88,77 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
         val footer = this[DATA_TYPE_FOOTER]
         val contents = this[DATA_TYPE_CONTENT]
 
-        if (footer is MusinsaDataType.FooterType && contents is MusinsaDataType.ContentType) {
+//        if (footer is MusinsaDataType.FooterType && contents is MusinsaDataType.ContentType) {
+        /*if (footer is MusinsaDataType.FooterType && contents is MusinsaDataType.ContentType) {
             if (footer.data.type == FOOTER_TYPE_MORE) {
                 val newContents = initContentsForMoreFooter(contents.data)
                 musinsaDataLiveData.value = listOf(header, newContents, footer)
-            } else {
-                musinsaDataLiveData.value = listOf(header, contents, footer)
-            }
-        }
+            } else {*/
+        musinsaDataLiveData.value = listOf(header, contents, footer)
+//            }
     }
-
-
-    private fun initContentsForMoreFooter(contents: MusinsaContentType): MusinsaDataType.ContentType {
-        return when (contents) {
-            is GridContentType -> MusinsaDataType.ContentType(
-                DATA_TYPE_CONTENT, GridContentType(
-                    type = contents.contentType,
-                    data = addGoodsItems()
-                )
-            )
-            is StyleContentType -> MusinsaDataType.ContentType(
-                DATA_TYPE_CONTENT, StyleContentType(
-                    type = contents.contentType,
-                    data = addStyleItems()
-                )
-            )
-            else -> MusinsaDataType.ContentType(DATA_TYPE_CONTENT, ErrorContentType())
-        }
-    }
-
-    private fun addGoodsItems(): MutableList<Good> {
-        val newGoodsItems = mutableListOf<Good>()
-
-        repeat(MORE_ADD_COUNT) {
-            if (gridContentsList.isNotEmpty()) {
-                newGoodsItems.add(gridContentsList.removeFirst())
-            }
-        }
-
-        return newGoodsItems
-    }
-
-    private fun addStyleItems(): MutableList<Style> {
-        val newStyleItems = mutableListOf<Style>()
-
-        repeat(MORE_ADD_COUNT) {
-            if (styleContentsList.isNotEmpty()) {
-                newStyleItems.add(styleContentsList.removeFirst())
-            }
-        }
-
-        return newStyleItems
-    }
-
 }
+
+/*
+    private fun initContentsForMoreFooter(newContents: MutableList<>, contents: Contents): MusinsaDataType.ContentType {
+        return when (contents.type) {
+            CONTENT_TYPE_GRID -> MusinsaDataType.ContentType(
+                DATA_TYPE_CONTENT, Contents(
+                    type = contents.type,
+                    goods = addGoodsItems()
+                )
+            )
+            CONTENT_TYPE_STYLE -> MusinsaDataType.ContentType(
+                DATA_TYPE_CONTENT, Contents(
+                    type = contents.type,
+                    styles = addStyleItems()
+                )
+            )
+        }
+    }
+*/
+
+
+/*private fun initContentsForMoreFooter(contents: MusinsaContentType): MusinsaDataType.ContentType {
+    return when (contents) {
+        is GridContentType -> MusinsaDataType.ContentType(
+            DATA_TYPE_CONTENT, GridContentType(
+                type = contents.contentType,
+                data = addGoodsItems()
+            )
+        )
+        is StyleContentType -> MusinsaDataType.ContentType(
+            DATA_TYPE_CONTENT, StyleContentType(
+                type = contents.contentType,
+                data = addStyleItems()
+            )
+        )
+        else -> MusinsaDataType.ContentType(DATA_TYPE_CONTENT, ErrorContentType())
+    }
+}*/
+
+/*private fun addGoodsItems(): MutableList<Good> {
+    val newGoodsItems = mutableListOf<Good>()
+
+    repeat(MORE_ADD_COUNT) {
+        if (gridContentsList.isNotEmpty()) {
+            newGoodsItems.add(gridContentsList.removeFirst())
+        }
+    }
+
+    return newGoodsItems
+}
+
+private fun addStyleItems(): MutableList<Style> {
+    val newStyleItems = mutableListOf<Style>()
+
+    repeat(MORE_ADD_COUNT) {
+        if (styleContentsList.isNotEmpty()) {
+            newStyleItems.add(styleContentsList.removeFirst())
+        }
+    }
+
+    return newStyleItems
+}*/
+
+//}
