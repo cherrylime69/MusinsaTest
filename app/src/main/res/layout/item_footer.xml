@@ -17,32 +17,43 @@
         android:layout_marginVertical="5dp"
         android:paddingVertical="5dp">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_footer_refresh"
             style="@style/Subtitle2.Grey03"
-            isFooterMoreVisible="@{footer}"
+            isFooterRefreshVisible="@{footer}"
+            loadIconImageUrl="@{footer.iconURL}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_white_r50"
+            android:drawablePadding="3dp"
+            android:drawableTint="@color/grey03"
             android:gravity="center"
+            android:paddingHorizontal="20dp"
             android:text="@{footer.title}"
+            app:drawableStartCompat="@drawable/ic_chevron_right_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="m"
             tools:text="새로운 추천" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_footer_more"
             style="@style/Subtitle2.Grey03"
-            isFooterRefreshVisible="@{footer}"
+            isFooterMoreVisible="@{footer}"
+            loadIconImageUrl="@{footer.iconURL}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_white_r50"
+            android:drawablePadding="3dp"
+            android:drawableTint="@color/grey03"
             android:gravity="center"
+            android:paddingHorizontal="20dp"
             android:text="@{footer.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="m"
             tools:text="더보기" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

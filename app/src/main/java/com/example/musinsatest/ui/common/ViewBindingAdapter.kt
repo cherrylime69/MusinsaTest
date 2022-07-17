@@ -5,7 +5,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.example.musinsatest.data.dto.Footer
 import com.example.musinsatest.data.dto.Header
-import com.example.musinsatest.domain.MusinsaDataType
+import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_BANNER
 
 @BindingAdapter("isHeaderVisible")
 fun updateHeaderVisibility(view: View, header: Header) {
@@ -35,4 +35,14 @@ fun updateFooterRefreshVisibility(view: View, footer: Footer) {
 @BindingAdapter("isCouponVisible")
 fun updateCouponVisibility(view: View, hasCoupon: Boolean) {
     view.isVisible = hasCoupon
+}
+
+@BindingAdapter("isViewPagerVisible")
+fun updateViewPagerVisibility(view: View, type: String) {
+    view.isVisible = type == CONTENT_TYPE_BANNER
+}
+
+@BindingAdapter("isRecyclerViewVisible")
+fun updateRecyclerViewVisibility(view: View, type: String) {
+    view.isVisible = type != CONTENT_TYPE_BANNER
 }

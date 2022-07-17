@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-       <variable
-           name="contentType"
-           type="String" />
+
+        <variable
+            name="contentType"
+            type="String" />
 
     </data>
 
@@ -15,19 +16,22 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_banner"
+            isViewPagerVisible="@{contentType}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_content"
+            isRecyclerViewVisible="@{contentType}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:nestedScrollingEnabled="true"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

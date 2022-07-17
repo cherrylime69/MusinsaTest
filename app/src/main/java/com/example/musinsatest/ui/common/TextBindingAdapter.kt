@@ -14,5 +14,5 @@ fun updateGoodsPrice(view: TextView, price: Int) {
 
 @BindingAdapter("updateSaleRate")
 fun updateSaleRate(view: TextView, saleRate: Int) {
-    view.text = view.context.getString(R.string.goods_sale_rate, saleRate)
+    view.text = "$saleRate%"
 }

@@ -7,16 +7,16 @@ import com.example.musinsatest.data.dto.MusinsaData
 import com.example.musinsatest.ui.common.ViewType
 
 
-sealed class MusinsaDataType(val dataType: Int) {
-    data class HeaderType(val type: Int = ViewType.DATA_TYPE_HEADER, val data: Header) : MusinsaDataType(type)
-    data class ContentType(val type: Int = ViewType.DATA_TYPE_CONTENT, val data: Contents) : MusinsaDataType(type)
-    data class FooterType(val type: Int = ViewType.DATA_TYPE_FOOTER, val data: Footer) : MusinsaDataType(type)
+sealed class MusinsaDataType {
+    data class HeaderType(val data: Header) : MusinsaDataType()
+    data class ContentType(val data: Contents) : MusinsaDataType()
+    data class FooterType(val data: Footer) : MusinsaDataType()
 }
 
 fun MusinsaData.divideDataType(): List<MusinsaDataType> {
     return listOf(
-        MusinsaDataType.HeaderType(data = this.header),
-        MusinsaDataType.ContentType(data = this.contents),
-        MusinsaDataType.FooterType(data = this.footer))
+        MusinsaDataType.HeaderType(this.header),
+        MusinsaDataType.ContentType(this.contents),
+        MusinsaDataType.FooterType(this.footer))
 }
 

@@ -3,6 +3,7 @@ package com.example.musinsatest.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.musinsatest.R
 import com.example.musinsatest.data.dto.Contents
 import com.example.musinsatest.data.dto.Good
 import com.example.musinsatest.data.dto.Style
@@ -59,6 +60,14 @@ class ContentAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         fun bind(grid: Good) {
             binding.goods = grid
+            setGridGoodsStyle()
+        }
+
+        private fun setGridGoodsStyle() {
+            binding.tvGoodsBrand.setTextAppearance(R.style.Subtitle2_Grey03)
+            binding.tvGoodsPrice.setTextAppearance(R.style.Caption_Bold)
+            binding.tvGoodsSaleRate.setTextAppearance(R.style.Caption_Red)
+            binding.tvGoodsCoupon.setTextAppearance(R.style.Overline_White)
         }
 
     }
@@ -68,6 +77,14 @@ class ContentAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         fun bind(scroll: Good) {
             binding.goods = scroll
+            setScrollGoodsStyle()
+        }
+
+        private fun setScrollGoodsStyle() {
+            binding.tvGoodsBrand.setTextAppearance(R.style.HeadLine5_Grey03)
+            binding.tvGoodsPrice.setTextAppearance(R.style.HeadLine6)
+            binding.tvGoodsSaleRate.setTextAppearance(R.style.HeadLine6_Red)
+            binding.tvGoodsCoupon.setTextAppearance(R.style.Subtitle2_White)
         }
 
     }
@@ -83,9 +100,14 @@ class ContentAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun submitList(contents: Contents) {
         type = contents.type
         when (type) {
-            CONTENT_TYPE_GRID -> goodsList.addAll(contents.goods)
-            CONTENT_TYPE_SCROLL -> goodsList.addAll(contents.goods)
-            CONTENT_TYPE_STYLE -> styleList.addAll(contents.styles)
+            CONTENT_TYPE_GRID, CONTENT_TYPE_SCROLL  -> {
+                if (goodsList.isEmpty())
+                goodsList.addAll(contents.goods)
+            }
+            CONTENT_TYPE_STYLE -> {
+                if (styleList.isEmpty())
+                styleList.addAll(contents.styles)
+            }
         }
     }
 

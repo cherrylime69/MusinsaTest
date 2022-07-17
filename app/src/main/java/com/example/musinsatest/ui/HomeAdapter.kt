@@ -75,7 +75,6 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
 
         }
-
     }
 
     class FooterViewHolder(private val binding: ItemFooterBinding) :
@@ -91,10 +90,12 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class ContentViewHolder(private val binding: ItemContentBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-//        private val bannerAdapter = BannerAdapter()
-//        private val gridAdapter = ContentAdapter()
-//        private val scrollAdapter = ContentAdapter()
-//        private val styleAdapter = ContentAdapter()
+        private val bannerAdapter = BannerAdapter().apply {
+            binding.vpBanner.adapter = this
+        }
+        private val gridAdapter = ContentAdapter()
+        private val scrollAdapter = ContentAdapter()
+        private val styleAdapter = ContentAdapter()
 
         fun bind(content: MusinsaDataType) {
             if (content is MusinsaDataType.ContentType) {
@@ -110,9 +111,6 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         private fun setStyleContents(content: MusinsaDataType.ContentType) {
             val layoutManager = GridLayoutManager(binding.root.context, 2)
-            val styleAdapter = ContentAdapter()
-            binding.vpBanner.isVisible = false
-            binding.rvContent.isVisible = true
             binding.rvContent.apply {
                 this.adapter = styleAdapter
                 this.layoutManager = layoutManager
@@ -123,9 +121,6 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private fun setScrollContents(content: MusinsaDataType.ContentType) {
             val layoutManager =
                 LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
-            val scrollAdapter = ContentAdapter()
-            binding.vpBanner.isVisible = false
-            binding.rvContent.isVisible = true
             binding.rvContent.apply {
                 this.adapter = scrollAdapter
                 this.layoutManager = layoutManager
@@ -135,9 +130,6 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         private fun setGridContents(content: MusinsaDataType.ContentType) {
             val layoutManager = GridLayoutManager(binding.root.context, 3)
-            val gridAdapter = ContentAdapter()
-            binding.vpBanner.isVisible = false
-            binding.rvContent.isVisible = true
             binding.rvContent.apply {
                 this.adapter = gridAdapter
                 this.layoutManager = layoutManager
@@ -146,10 +138,6 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
 
         private fun setBannerContents(content: MusinsaDataType.ContentType) {
-            val bannerAdapter = BannerAdapter()
-            binding.vpBanner.apply {
-                this.adapter = bannerAdapter
-            }
             bannerAdapter.submitList(content.data.banners)
         }
     }
