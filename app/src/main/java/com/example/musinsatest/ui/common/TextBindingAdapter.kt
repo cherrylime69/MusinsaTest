@@ -14,5 +14,11 @@ fun updateGoodsPrice(view: TextView, price: Int) {
 
 @BindingAdapter("updateSaleRate")
 fun updateSaleRate(view: TextView, saleRate: Int) {
-    view.text = "$saleRate%"
+    view.text = view.context.getString(R.string.goods_sale_rate, saleRate)
+}
+
+@BindingAdapter("currentPage", "totalPage")
+fun updatePageIndex(view: TextView, currentIndex: Int, totalIndex: Int) {
+    val index = view.context.getString(R.string.banner_page_index, currentIndex + 1, totalIndex)
+    view.text = index
 }

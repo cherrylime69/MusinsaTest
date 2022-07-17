@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musinsatest.data.dto.Banner
 import com.example.musinsatest.databinding.ItemBannerBinding
 
-class BannerAdapter : ListAdapter<Banner, BannerAdapter.BannerViewHolder>(BannerDiffCallback) {
+class BannerAdapter(private val clickListener: (url: String) -> Unit) :
+    ListAdapter<Banner, BannerAdapter.BannerViewHolder>(BannerDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BannerViewHolder {
         val binding = ItemBannerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -19,11 +20,18 @@ class BannerAdapter : ListAdapter<Banner, BannerAdapter.BannerViewHolder>(Banner
         holder.bind(getItem(position))
     }
 
-    class BannerViewHolder(private val binding: ItemBannerBinding) :
+    inner class BannerViewHolder(private val binding: ItemBannerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(banner: Banner) {
             binding.banner = banner
+            setOnItemClickListener(banner.linkURL)
+        }
+
+        private fun setOnItemClickListener(url: String) {
+            binding.clBanner.setOnClickListener {
+                clickListener(url)
+            }
         }
     }
 

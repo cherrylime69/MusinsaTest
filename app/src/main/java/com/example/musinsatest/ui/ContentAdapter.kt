@@ -13,7 +13,8 @@ import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_GRID
 import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_SCROLL
 import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_STYLE
 
-class ContentAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ContentAdapter(private val clickListener: (String) -> Unit) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var type = ""
     private val goodsList = mutableListOf<Good>()
@@ -55,12 +56,13 @@ class ContentAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    class GridViewHolder(private val binding: ItemGoodsBinding) :
+    inner class GridViewHolder(private val binding: ItemGoodsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(grid: Good) {
             binding.goods = grid
             setGridGoodsStyle()
+            setOnItemClickListener(grid.linkURL)
         }
 
         private fun setGridGoodsStyle() {
@@ -70,14 +72,20 @@ class ContentAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.tvGoodsCoupon.setTextAppearance(R.style.Overline_White)
         }
 
+        private fun setOnItemClickListener(url: String) {
+            binding.clGoods.setOnClickListener {
+                clickListener(url)
+            }
+        }
     }
 
-    class ScrollViewHolder(private val binding: ItemGoodsBinding) :
+    inner class ScrollViewHolder(private val binding: ItemGoodsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(scroll: Good) {
             binding.goods = scroll
             setScrollGoodsStyle()
+            setOnItemClickListener(scroll.linkURL)
         }
 
         private fun setScrollGoodsStyle() {
@@ -87,26 +95,39 @@ class ContentAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.tvGoodsCoupon.setTextAppearance(R.style.Subtitle2_White)
         }
 
+        private fun setOnItemClickListener(url: String) {
+            binding.clGoods.setOnClickListener {
+                clickListener(url)
+            }
+        }
+
     }
 
-    class StyleViewHolder(private val binding: ItemStyleBinding) :
+    inner class StyleViewHolder(private val binding: ItemStyleBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(style: Style) {
             binding.style = style
+            setOnItemClickListener(style.linkURL)
+        }
+
+        private fun setOnItemClickListener(url: String) {
+            binding.clStyle.setOnClickListener {
+                clickListener(url)
+            }
         }
     }
 
     fun submitList(contents: Contents) {
         type = contents.type
         when (type) {
-            CONTENT_TYPE_GRID, CONTENT_TYPE_SCROLL  -> {
+            CONTENT_TYPE_GRID, CONTENT_TYPE_SCROLL -> {
                 if (goodsList.isEmpty())
-                goodsList.addAll(contents.goods)
+                    goodsList.addAll(contents.goods)
             }
             CONTENT_TYPE_STYLE -> {
                 if (styleList.isEmpty())
-                styleList.addAll(contents.styles)
+                    styleList.addAll(contents.styles)
             }
         }
     }

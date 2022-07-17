@@ -1,10 +1,11 @@
 package com.example.musinsatest.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.example.musinsatest.R
 import com.example.musinsatest.databinding.ActivityHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +20,9 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        homeAdapter = HomeAdapter()
+        homeAdapter = HomeAdapter { url ->
+            setOnClickListenerToMoveToGivenUrl(url)
+        }
         binding.rvHome.adapter = homeAdapter
 
 
@@ -44,6 +47,13 @@ class HomeActivity : AppCompatActivity() {
             if (it.isNotEmpty()) {
                 homeAdapter.submitList(it)
             }
+        }
+    }
+
+    private fun setOnClickListenerToMoveToGivenUrl(url: String) {
+        if (url.isNotBlank() || url.isNotEmpty()) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
         }
     }
 

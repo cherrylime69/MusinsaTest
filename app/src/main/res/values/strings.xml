@@ -7,6 +7,7 @@
     <string name="description_header_image">헤더 타이틀 이미지</string>
     <string name="header_total_link">전체</string>
     <string name="goods_price">%s원</string>
-    <string name="goods_sale_rate">%d</string>
     <string name="goods_coupon">쿠폰</string>
+    <string name="goods_sale_rate">%d%%</string>
+    <string name="banner_page_index">%d / %d</string>
 </resources>

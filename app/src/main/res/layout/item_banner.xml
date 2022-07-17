@@ -11,6 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_banner"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -62,22 +63,6 @@
             app:layout_constraintStart_toStartOf="@+id/tv_banner_title"
             tools:text="신상품 증정 이벤트" />
 
-        <TextView
-            android:id="@+id/tv_banner_tap_index"
-            style="@style/Subtitle2.White"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="25dp"
-            android:background="@drawable/background_grey_r24"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:paddingStart="10dp"
-            app:drawableEndCompat="@drawable/ic_chevron_right_white"
-            app:layout_constraintBottom_toBottomOf="@id/iv_banner_thumbnail"
-            app:layout_constraintEnd_toEndOf="@id/iv_banner_thumbnail"
-            tools:text="1 / 20" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

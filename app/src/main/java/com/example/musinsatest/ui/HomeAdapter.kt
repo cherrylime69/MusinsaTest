@@ -2,10 +2,10 @@ package com.example.musinsatest.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.musinsatest.databinding.ItemContentBinding
 import com.example.musinsatest.databinding.ItemFooterBinding
 import com.example.musinsatest.databinding.ItemHeaderBinding
@@ -16,7 +16,8 @@ import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_GRID
 import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_SCROLL
 import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_STYLE
 
-class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeAdapter(private val clickListener: (url: String) -> Unit) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val musinsaDataList = mutableListOf<MusinsaDataType>()
 
@@ -66,14 +67,21 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    class HeaderViewHolder(private val binding: ItemHeaderBinding) :
+    inner class HeaderViewHolder(private val binding: ItemHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(header: MusinsaDataType) {
             if (header is MusinsaDataType.HeaderType) {
                 binding.header = header.data
+                setOnTotalTextViewClickListener(header.data.linkURL)
             }
 
+        }
+
+        private fun setOnTotalTextViewClickListener(url: String) {
+            binding.tvHeaderTotalLink.setOnClickListener {
+                clickListener(url)
+            }
         }
     }
 
@@ -87,15 +95,15 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    class ContentViewHolder(private val binding: ItemContentBinding) :
+    inner class ContentViewHolder(private val binding: ItemContentBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val bannerAdapter = BannerAdapter().apply {
+        private val bannerAdapter = BannerAdapter(clickListener).apply {
             binding.vpBanner.adapter = this
         }
-        private val gridAdapter = ContentAdapter()
-        private val scrollAdapter = ContentAdapter()
-        private val styleAdapter = ContentAdapter()
+        private val gridAdapter = ContentAdapter(clickListener)
+        private val scrollAdapter = ContentAdapter(clickListener)
+        private val styleAdapter = ContentAdapter(clickListener)
 
         fun bind(content: MusinsaDataType) {
             if (content is MusinsaDataType.ContentType) {
@@ -139,6 +147,18 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         private fun setBannerContents(content: MusinsaDataType.ContentType) {
             bannerAdapter.submitList(content.data.banners)
+            setOnViewPagerChangePageListener(content)
+        }
+
+        private fun setOnViewPagerChangePageListener(content: MusinsaDataType.ContentType) {
+            binding.totalPageIndex = content.data.banners.size
+            binding.vpBanner.registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    binding.currentPageIndex = position
+                }
+            })
         }
     }
 
