@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName
 
 data class MusinsaDataResponse(
     @SerializedName("data")
-    val `data`: List<Data> = listOf()
+    val musinsaDataList: List<MusinsaData> = listOf()
 )
 
-data class Data(
+data class MusinsaData(
     @SerializedName("contents")
     val contents: Contents = Contents(),
     @SerializedName("footer")

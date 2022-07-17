@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="10dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/iv_header_icon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="5dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@id/tv_header_title"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/tv_header_title"
-        app:layout_constraintTop_toTopOf="@id/tv_header_title"
-        tools:srcCompat="@tools:sample/avatars" />
+    <data>
 
-    <TextView
-        android:id="@+id/tv_header_title"
-        style="@style/HeadLine6"
-        android:layout_width="wrap_content"
+        <variable
+            name="header"
+            type="com.example.musinsatest.data.dto.Header" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        isHeaderVisible="@{header}"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:includeFontPadding="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="타이틀" />
+        android:paddingBottom="10dp">
 
-    <TextView
-        style="@style/Subtitle2.Grey03"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        app:drawableEndCompat="@drawable/ic_chevron_right_white"
-        app:drawableTint="@color/grey03"
-        app:layout_constraintBottom_toBottomOf="@id/tv_header_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_header_title"
-        tools:text="전체" />
+        <TextView
+            android:id="@+id/tv_header_title"
+            style="@style/HeadLine6"
+            loadIconImageUrl="@{header.iconURL}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:drawablePadding="3dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingHorizontal="30dp"
+            android:text="@{header.title}"
+            app:layout_constraintEnd_toStartOf="@id/tv_header_total_link"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="타이틀" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_header_total_link"
+            style="@style/Subtitle2.Grey03"
+            isHeaderTotalVisible="@{header}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/header_total_link"
+            app:drawableEndCompat="@drawable/ic_chevron_right_white"
+            app:drawableTint="@color/grey03"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_header_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_header_title"
+            tools:text="전체" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
