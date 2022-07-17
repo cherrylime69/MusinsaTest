@@ -15,28 +15,37 @@ import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_BANNER
 import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_GRID
 import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_SCROLL
 import com.example.musinsatest.ui.common.ViewType.CONTENT_TYPE_STYLE
+import com.example.musinsatest.ui.common.ViewType.DATA_TYPE_CONTENT
+import com.example.musinsatest.ui.common.ViewType.DATA_TYPE_FOOTER
+import com.example.musinsatest.ui.common.ViewType.DATA_TYPE_HEADER
+import com.example.musinsatest.ui.common.ViewType.GRID_DEFAULT_COLUMN
+import com.example.musinsatest.ui.common.ViewType.STYLE_DEFAULT_COLUMN
 
-class HomeAdapter(private val clickListener: (url: String) -> Unit) :
+class HomeAdapter(
+    private val clickListener: (url: String) -> Unit,
+    private val footerClickListener: (type: String) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val musinsaDataList = mutableListOf<MusinsaDataType>()
+    private var previousPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ViewType.DATA_TYPE_HEADER -> {
-                val binding =
+            DATA_TYPE_HEADER -> {
+                val headerBinding =
                     ItemHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                HeaderViewHolder(binding)
+                HeaderViewHolder(headerBinding)
             }
-            ViewType.DATA_TYPE_CONTENT -> {
-                val binding =
+            DATA_TYPE_CONTENT -> {
+                val contentBinding =
                     ItemContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                ContentViewHolder(binding)
+                ContentViewHolder(contentBinding)
             }
             else -> {
-                val binding =
+                val footerBinding =
                     ItemFooterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                FooterViewHolder(binding)
+                FooterViewHolder(footerBinding)
             }
         }
     }
@@ -61,9 +70,9 @@ class HomeAdapter(private val clickListener: (url: String) -> Unit) :
 
     override fun getItemViewType(position: Int): Int {
         return when (musinsaDataList[position]) {
-            is MusinsaDataType.HeaderType -> ViewType.DATA_TYPE_HEADER
-            is MusinsaDataType.ContentType -> ViewType.DATA_TYPE_CONTENT
-            is MusinsaDataType.FooterType -> ViewType.DATA_TYPE_FOOTER
+            is MusinsaDataType.HeaderType -> DATA_TYPE_HEADER
+            is MusinsaDataType.ContentType -> DATA_TYPE_CONTENT
+            is MusinsaDataType.FooterType -> DATA_TYPE_FOOTER
         }
     }
 
@@ -85,12 +94,41 @@ class HomeAdapter(private val clickListener: (url: String) -> Unit) :
         }
     }
 
-    class FooterViewHolder(private val binding: ItemFooterBinding) :
+    inner class FooterViewHolder(private val binding: ItemFooterBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(footer: MusinsaDataType) {
             if (footer is MusinsaDataType.FooterType) {
                 binding.footer = footer.data
+                setOnMoreFooterClickListener(footer)
+                setOnRefreshFooterClickListener(footer)
+            }
+
+        }
+
+        private fun setOnMoreFooterClickListener(footer: MusinsaDataType.FooterType) {
+            binding.btnFooterMore.setOnClickListener {
+                when (footer.contentType) {
+                    CONTENT_TYPE_GRID -> {
+                        previousPosition = adapterPosition - 1
+                        footerClickListener.invoke(CONTENT_TYPE_GRID)
+                    }
+                    CONTENT_TYPE_STYLE -> {
+                        previousPosition = adapterPosition - 1
+                        footerClickListener.invoke(CONTENT_TYPE_STYLE)
+                    }
+                }
+            }
+        }
+
+        private fun setOnRefreshFooterClickListener(footer: MusinsaDataType.FooterType) {
+            binding.btnFooterRefresh.setOnClickListener {
+                when (footer.contentType) {
+                    CONTENT_TYPE_SCROLL -> {
+                        previousPosition = adapterPosition - 1
+                        footerClickListener.invoke(CONTENT_TYPE_SCROLL)
+                    }
+                }
             }
         }
     }
@@ -101,9 +139,9 @@ class HomeAdapter(private val clickListener: (url: String) -> Unit) :
         private val bannerAdapter = BannerAdapter(clickListener).apply {
             binding.vpBanner.adapter = this
         }
-        private val gridAdapter = ContentAdapter(clickListener)
-        private val scrollAdapter = ContentAdapter(clickListener)
-        private val styleAdapter = ContentAdapter(clickListener)
+        private val gridAdapter = GridAdapter(clickListener)
+        private val scrollAdapter = ScrollAdapter(clickListener)
+        private val styleAdapter = StyleAdapter(clickListener)
 
         fun bind(content: MusinsaDataType) {
             if (content is MusinsaDataType.ContentType) {
@@ -118,12 +156,15 @@ class HomeAdapter(private val clickListener: (url: String) -> Unit) :
         }
 
         private fun setStyleContents(content: MusinsaDataType.ContentType) {
-            val layoutManager = GridLayoutManager(binding.root.context, 2)
+            val layoutManager = GridLayoutManager(binding.root.context, STYLE_DEFAULT_COLUMN)
             binding.rvContent.apply {
                 this.adapter = styleAdapter
                 this.layoutManager = layoutManager
             }
-            styleAdapter.submitList(content.data)
+            styleAdapter.submitList(content.data.styles) {
+                layoutManager.scrollToPosition(itemCount - 1)
+                binding.rvContent.scrollToPosition(itemCount - 1)
+            }
         }
 
         private fun setScrollContents(content: MusinsaDataType.ContentType) {
@@ -133,16 +174,17 @@ class HomeAdapter(private val clickListener: (url: String) -> Unit) :
                 this.adapter = scrollAdapter
                 this.layoutManager = layoutManager
             }
-            scrollAdapter.submitList(content.data)
+            scrollAdapter.submitList(content.data.goods) {
+            }
         }
 
         private fun setGridContents(content: MusinsaDataType.ContentType) {
-            val layoutManager = GridLayoutManager(binding.root.context, 3)
+            val layoutManager = GridLayoutManager(binding.root.context, GRID_DEFAULT_COLUMN)
             binding.rvContent.apply {
                 this.adapter = gridAdapter
                 this.layoutManager = layoutManager
             }
-            gridAdapter.submitList(content.data)
+            gridAdapter.submitList(content.data.goods)
         }
 
         private fun setBannerContents(content: MusinsaDataType.ContentType) {
@@ -165,8 +207,12 @@ class HomeAdapter(private val clickListener: (url: String) -> Unit) :
     fun submitList(musinsaDataType: List<MusinsaDataType>) {
         val startIndex = musinsaDataList.size
         musinsaDataList.addAll(musinsaDataType)
-//        this.notifyDataSetChanged()
         notifyItemRangeChanged(startIndex, musinsaDataList.size)
+    }
+
+    fun submitListAfterFooterClick(musinsaDataType: List<MusinsaDataType>) {
+        musinsaDataList[previousPosition] = musinsaDataType[DATA_TYPE_CONTENT]
+        notifyItemChanged(previousPosition)
     }
 
 

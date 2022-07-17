@@ -14,6 +14,11 @@ object ViewType {
     const val FOOTER_TYPE_MORE = "MORE"
     const val FOOTER_TYPE_REFRESH = "REFRESH"
 
-    const val MORE_ADD_COUNT = 2
+    const val GRID_DEFAULT_COLUMN = 3
+    const val GRID_DEFAULT_ROW = 2
+
+    const val STYLE_DEFAULT_COLUMN = 2
+    const val STYLE_DEFAULT_ROW = 2
+
 
 }
